@@ -12,9 +12,9 @@
 
 package Date::Language::Turkish;
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION %DsufMAP);
-@ISA     = qw(Date::Language);
-$VERSION = "1.0";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.0";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = qw(Pazar Pazartesi Salý Çarþamba Perþembe Cuma Cumartesi);
 @MoY = qw(Ocak Þubat Mart  Nisan Mayýs Haziran Temmuz Aðustos Eylül Ekim Kasým Aralýk);
@@ -25,7 +25,7 @@ $DoWs[-1] = 'Cmt'; # Since we'll get two 'Cum' s
 @AMPM     = ('',''); # no am-pm thingy
 
 # not easy as in english... maybe we can just use a dot "." ? :)
-%DsufMAP = (
+my %DsufMAP = (
 (map {$_ => 'inci', $_+10 => 'inci', $_+20 => 'inci' } 1,2,5,8 ),
 (map {$_ =>  'nci', $_+10 =>  'nci', $_+20 =>  'nci' } 7       ),
 (map {$_ =>  'nci', $_+10 =>  'nci', $_+20 =>  'nci' } 2       ),

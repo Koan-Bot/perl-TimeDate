@@ -1,9 +1,9 @@
 package Date::Language::Arabic;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.00";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.00";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 use utf8;
 
 @DoW = qw(الأحد الاثنين الثلاثاء الأربعاء الخميس الجمعة السبت);

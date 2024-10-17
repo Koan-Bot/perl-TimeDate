@@ -1,8 +1,6 @@
 package TimeDate;
 
-use vars qw($VERSION);
-
-$VERSION = "1.21";
+our $VERSION = "1.21";
 
 =pod
 

@@ -5,9 +5,9 @@
 package Date::Language::Russian_cp1251;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.01";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.01";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = qw(Воскресенье Понедельник Вторник Среда Четверг Пятница Суббота);
 @MoY = qw(Январь Февраль Март Апрель Май Июнь

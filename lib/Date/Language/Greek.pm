@@ -13,9 +13,9 @@ package Date::Language::Greek;
 
 use utf8;
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.00";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.00";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = (
 "\x{039a}\x{03c5}\x{03c1}\x{03b9}\x{03b1}\x{03ba}\x{03ae}",

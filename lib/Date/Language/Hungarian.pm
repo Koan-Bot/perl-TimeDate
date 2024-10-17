@@ -46,9 +46,10 @@ Made available under the same terms as Perl itself.
 
 use strict;
 use warnings;
-use base "Date::Language";
-use vars qw( @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-$VERSION = "1.01";
+use Date::Language ();
+our @ISA = qw(Date::Language);
+our $VERSION = "1.01";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = qw(Vasárnap Hétfõ Kedd Szerda Csütörtök Péntek Szombat);
 @MoY = qw(Január Február Március Április Május Június

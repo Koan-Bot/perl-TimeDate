@@ -7,9 +7,9 @@
 package Date::Language::Finnish;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.01";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.01";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 # In Finnish, the names of the months and days are only capitalized at the beginning of sentences.
 @MoY  = map($_ . "kuu", qw(tammi helmi maalis huhti touko kesä heinä elo syys loka marras joulu));

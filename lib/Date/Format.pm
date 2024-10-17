@@ -5,12 +5,11 @@
 package Date::Format;
 
 use     strict;
-use     vars qw(@EXPORT @ISA $VERSION);
 require Exporter;
 
-$VERSION = "2.24";
-@ISA     = qw(Exporter);
-@EXPORT  = qw(time2str strftime ctime asctime);
+our $VERSION = "2.24";
+our @ISA     = qw(Exporter);
+our @EXPORT  = qw(time2str strftime ctime asctime);
 
 sub time2str ($;$$)
 {
@@ -40,7 +39,8 @@ sub asctime (\@;$)
 
 package Date::Format::Generic;
 
-use vars qw($epoch $tzname);
+our $epoch;
+our $tzname;
 use Time::Zone;
 use Time::Local;
 

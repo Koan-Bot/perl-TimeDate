@@ -39,24 +39,22 @@ Paul Foley <paul@ascent.com>
 
 =cut
 
-require 5.002;
+require 5.006;
 
 require Exporter;
 use Carp;
 use strict;
-use vars qw(@ISA @EXPORT $VERSION @tz_local);
 
-@ISA = qw(Exporter);
-@EXPORT = qw(tz2zone tz_local_offset tz_offset tz_name);
-$VERSION = "2.24";
+our @ISA = qw(Exporter);
+our @EXPORT = qw(tz2zone tz_local_offset tz_offset tz_name);
+our $VERSION = "2.24";
 
 # Parts stolen from code by Paul Foley <paul@ascent.com>
 
+my %tzn_cache;
 sub tz2zone (;$$$)
 {
 	my($TZ, $time, $isdst) = @_;
-
-	use vars qw(%tzn_cache);
 
 	$TZ = defined($ENV{'TZ'}) ? ( $ENV{'TZ'} ? $ENV{'TZ'} : 'GMT' ) : ''
 	    unless $TZ;
@@ -93,6 +91,7 @@ sub tz2zone (;$$$)
 	return $TZ;
 }
 
+my @tz_local;
 sub tz_local_offset (;$)
 {
 	my ($time) = @_;
@@ -145,9 +144,9 @@ sub calc_off
 
 # constants
 
-CONFIG: {
-	use vars qw(%dstZone %zoneOff %dstZoneOff %Zone);
+my (%dstZone, %zoneOff, %dstZoneOff, %Zone);
 
+CONFIG: {
 	my @dstZone = (
 	#   "ndt"  =>   -2*3600-1800,	 # Newfoundland Daylight   
 	    "brst" =>   -2*3600,         # Brazil Summer Time (East Daylight)

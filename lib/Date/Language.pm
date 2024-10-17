@@ -4,11 +4,10 @@ package Date::Language;
 use     strict;
 use     Time::Local;
 use     Carp;
-use     vars qw($VERSION @ISA);
 require Date::Format;
 
-$VERSION = "1.10";
-@ISA     = qw(Date::Format::Generic);
+our $VERSION = "1.10";
+our @ISA     = qw(Date::Format::Generic);
 
 sub new
 {
@@ -31,8 +30,7 @@ sub DESTROY {}
 
 sub AUTOLOAD
 {
- use vars qw($AUTOLOAD);
-
+ our $AUTOLOAD;
  if($AUTOLOAD =~ /::strptime\Z/o)
   {
    my $self = $_[0];

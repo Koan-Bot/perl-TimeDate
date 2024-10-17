@@ -5,9 +5,10 @@
 
 package Date::Language::Russian;
 
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @MoY2 @AMPM %MoY %DoW $VERSION);
-@ISA = qw(Date::Language Date::Format::Generic);
-$VERSION = "1.01";
+use Date::Language ();
+our @ISA = qw(Date::Language);
+our $VERSION = "1.01";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @MoY = qw(Января Февраля Марта Апреля Мая Июня Июля Августа Сентября Октября Ноября Декабря);
 @MoY2 = qw(Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь);

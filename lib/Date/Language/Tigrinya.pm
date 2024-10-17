@@ -5,9 +5,9 @@
 package Date::Language::Tigrinya;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.00";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.00";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = (
 "\x{1230}\x{1295}\x{1260}\x{1275}",

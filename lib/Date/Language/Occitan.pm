@@ -5,9 +5,9 @@
 package Date::Language::Occitan;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.04";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.04";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = qw(dimenge diluns dimars dimècres dijòus divendres dissabte);
 @MoY = qw(genièr febrièr març abrial mai junh 

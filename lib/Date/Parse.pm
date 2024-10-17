@@ -6,16 +6,15 @@ package Date::Parse;
 
 require 5.000;
 use strict;
-use vars qw($VERSION @ISA @EXPORT);
 use Time::Local;
 use Carp;
 use Time::Zone;
 use Exporter;
 
-@ISA = qw(Exporter);
-@EXPORT = qw(&strtotime &str2time &strptime);
+our @ISA = qw(Exporter);
+our @EXPORT = qw(&strtotime &str2time &strptime);
 
-$VERSION = "2.33";
+our $VERSION = "2.33";
 
 my %month = (
 	january		=> 0,
@@ -207,7 +206,7 @@ sub {
 }
 ESQ
 
-use vars qw($day_ref $mon_ref $suf_ref $obj);
+our ($day_ref, $mon_ref, $suf_ref, $obj);
 
 sub gen_parser
 {

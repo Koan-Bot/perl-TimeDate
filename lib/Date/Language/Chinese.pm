@@ -5,9 +5,9 @@
 package Date::Language::Chinese;
 
 use Date::Language ();
-use vars qw(@ISA @DoW @DoWs @MoY @MoYs @AMPM @Dsuf %MoY %DoW $VERSION);
-@ISA = qw(Date::Language);
-$VERSION = "1.00";
+our @ISA = qw(Date::Language);
+our $VERSION = "1.00";
+our (@DoW, @DoWs, @MoY, @MoYs, @AMPM, @Dsuf, %MoY, %DoW);
 
 @DoW = qw(星期日 星期一 星期二 星期三 星期四 星期五 星期六);
 @MoY = qw(一月 二月 三月 四月 五月 六月
