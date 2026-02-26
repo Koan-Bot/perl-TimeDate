@@ -1,7 +1,7 @@
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
-print "1..9\n";
+print "1..11\n";
 
 my $i = 1;
 
@@ -61,5 +61,21 @@ my $i = 1;
   my $time = str2time($date);
   my $year_parsed_as = 1900 + (gmtime($time))[5];
   print "not " unless $year_parsed_as == $target_year;
+  print "ok ", $i++, "\n";
+}
+
+{   # IST (Indian Standard Time) should resolve to UTC+5:30
+  use Time::Zone;
+
+  my $offset = tz_offset("ist");
+  print "# tz_offset('ist') = $offset (expected 19800)\n";
+  print "not " unless defined $offset && $offset == 19800;
+  print "ok ", $i++, "\n";
+
+  # Verify parsing a date with IST timezone
+  my $time = str2time("2024-01-15 12:00:00 IST");
+  my $time_utc = str2time("2024-01-15 06:30:00 UTC");
+  print "# str2time IST=$time UTC=$time_utc\n";
+  print "not " unless defined $time && defined $time_utc && $time == $time_utc;
   print "ok ", $i++, "\n";
 }
