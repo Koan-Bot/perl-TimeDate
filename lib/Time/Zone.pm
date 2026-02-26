@@ -219,7 +219,7 @@ CONFIG: {
 	#   "it"	=>  +3*3600+1800,# Iran
 	    "zp4"	=>  +4*3600, 	 # USSR Zone 3
 	    "zp5"	=>  +5*3600, 	 # USSR Zone 4
-	#   "ist"	=>  +5*3600+1800,# Indian Standard
+	    "ist"	=>  +5*3600+1800,# Indian Standard
 	    "zp6"	=>  +6*3600, 	 # USSR Zone 5
 	# For completeness.  NST is also Newfoundland Stanard, and SST is also Swedish Summer.
 	#   "nst"	=>  +6*3600+1800,# North Sumatra
