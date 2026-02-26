@@ -39,7 +39,7 @@ jobs:
         perl-version: ${{ fromJson(needs.perl-versions.outputs.perl-versions) }}
 
     container:
-      image: perl:${{ matrix.perl-version }}
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
 
     steps:
       - uses: actions/checkout@v6
