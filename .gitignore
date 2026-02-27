@@ -7,3 +7,4 @@ _dev
 MYMETA.json
 MYMETA.yml
 .DS_Store
+.build

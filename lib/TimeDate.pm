@@ -1,4 +1,5 @@
 package TimeDate;
+# ABSTRACT: Date parsing and formatting
 
 our $VERSION = "1.21";
 
