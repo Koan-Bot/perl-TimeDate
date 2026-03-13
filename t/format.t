@@ -1,4 +1,4 @@
-use Test::More tests => 202;
+use Test::More tests => 242;
 use Date::Format qw(ctime time2str);
 use Date::Language;
 use utf8;
@@ -125,6 +125,49 @@ German
 %Oq	III
 %OY	MCMXCIX
 %Oy	XCIX
+French
+%y	99
+%Y	1999
+%%	%
+%a	mar
+%A	mardi
+%b	sep
+%B	septembre
+%c	09/07/99 13:02:42
+%C	mar sep  7 13:02:42 GMT 1999
+%d	07
+%e	 7
+%D	09/07/99
+%h	sep
+%H	13
+%I	01
+%j	250
+%k	13
+%l	 1
+%L	9
+%m	09
+%M	02
+%o	 7e
+%p	PM
+%q	3
+%r	01:02:42 PM
+%R	13:02
+%s	936709362
+%S	42
+%T	13:02:42
+%U	36
+%w	2
+%W	36
+%x	09/07/99
+%X	13:02:42
+%y	99
+%Y	1999
+%Z	GMT
+%z	+0000
+915192000 # Fri Jan  1 12:00:00 1999 GMT
+%o	 1er
+%A	vendredi
+936709362 # Tue Sep  7 11:22:42 1999 GMT
 Italian
 %y	99
 %Y	1999
