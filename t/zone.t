@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More;
 use Time::Zone;
 
 # tz_offset: standard timezone abbreviations
@@ -36,9 +36,23 @@ is(tz_offset("BOGUS"), undef, "tz_offset unknown zone returns undef");
 is(tz_offset("gmt"), 0,      "tz_offset case insensitive: gmt");
 is(tz_offset("est"), -18000, "tz_offset case insensitive: est");
 
-# tz_name: known offsets
-like(tz_name(0),      qr/^(?:GMT|UTC)$/i, "tz_name(0) is GMT or UTC");
-like(tz_name(-18000), qr/EST/i,           "tz_name(-18000) matches EST");
+# tz_name: with explicit $dst parameter (deterministic, no system-time dependency)
+# When $dst=0, offset -18000 (-5h) should resolve to a standard timezone (EST)
+# When $dst=1, offset -18000 (-5h) should resolve to a DST timezone (CDT)
+is(tz_name(-18000, 0), "est", "tz_name(-18000, dst=0) is est");
+is(tz_name(-18000, 1), "cdt", "tz_name(-18000, dst=1) is cdt");
+
+# tz_name: offset 0 is always GMT/UTC regardless of DST flag
+like(tz_name(0, 0), qr/^(?:gmt|utc)$/i, "tz_name(0, dst=0) is GMT or UTC");
+like(tz_name(0, 1), qr/^(?:gmt|utc)$/i, "tz_name(0, dst=1) is GMT or UTC");
+
+# tz_name: offsets with only standard or only DST entries
+is(tz_name(32400, 0),  "jst",  "tz_name(32400, dst=0) is jst (Japan Standard)");
+is(tz_name(-25200, 1), "pdt",  "tz_name(-25200, dst=1) is pdt (Pacific Daylight)");
+is(tz_name(-28800, 0), "pst",  "tz_name(-28800, dst=0) is pst (Pacific Standard)");
+
+# tz_name: unknown offset returns numeric string
+like(tz_name(5400, 0), qr/^\+\d{4}$/, "tz_name for unknown offset returns numeric");
 
 # tz_local_offset: returns a sane value
 {
@@ -47,3 +61,5 @@ like(tz_name(-18000), qr/EST/i,           "tz_name(-18000) matches EST");
     cmp_ok($offset, '>=', -12 * 3600, "tz_local_offset >= -12 hours");
     cmp_ok($offset, '<=', 14 * 3600,  "tz_local_offset <= 14 hours");
 }
+
+done_testing;
