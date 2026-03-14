@@ -78,12 +78,12 @@ German
 %y	99
 %Y	1999
 %%	%
-%a	Die
+%a	Di
 %A	Dienstag
 %b	Sep
 %B	September
 %c	09/07/99 13:02:42
-%C	Die Sep  7 13:02:42 GMT 1999
+%C	Di Sep  7 13:02:42 GMT 1999
 %d	07
 %e	 7
 %D	09/07/99
