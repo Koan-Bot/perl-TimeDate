@@ -264,9 +264,11 @@ CONFIG: {
     # For completeness.  NST is also Newfoundland Stanard, and SST is also Swedish Summer.
     #   "nst"   =>  +6*3600+1800,# North Sumatra
     #   "sst"   =>  +7*3600,     # South Sumatra, USSR Zone 6
+        "ict"   =>  +7*3600,     # Indochina
     #   "jt"    =>  +7*3600+1800,# Java (3pm in Cronusland!)
         "ict"   =>  +7*3600,     # Indochina Time
         "wst"   =>  +8*3600,     # West Australian Standard
+        "pht"   =>  +8*3600,     # Philippine
         "hkt"   =>  +8*3600,     # Hong Kong
         "pht"   =>  +8*3600,     # Philippine Time
         "cct"   =>  +8*3600,     # China Coast, USSR Zone 7
