@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More tests => 30;
 use Time::Zone;
 
 # tz_offset: standard timezone abbreviations
@@ -13,6 +13,8 @@ is(tz_offset("PST"),  -28800, "tz_offset PST = -28800");
 is(tz_offset("CET"),  3600,   "tz_offset CET = 3600");
 is(tz_offset("JST"),  32400,  "tz_offset JST = 32400");
 is(tz_offset("IST"),  19800,  "tz_offset IST = 19800");
+is(tz_offset("ICT"),  25200,  "tz_offset ICT = 25200 (Indochina)");
+is(tz_offset("PHT"),  28800,  "tz_offset PHT = 28800 (Philippine)");
 
 # tz_offset: DST timezone abbreviations
 is(tz_offset("EDT"),  -14400, "tz_offset EDT = -14400");
