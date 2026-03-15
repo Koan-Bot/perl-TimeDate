@@ -331,9 +331,44 @@ date string does not specify a timezone.
 
 C<strptime> takes the same arguments as str2time but returns an array of
 values C<($ss,$mm,$hh,$day,$month,$year,$zone,$century)>. Elements are only
-defined if they could be extracted from the date string. The C<$zone> element
-is the timezone offset in seconds from GMT. An empty array is returned upon
-failure.
+defined if they could be extracted from the date string. An empty array is
+returned upon failure.
+
+The return values follow the same conventions as Perl's built-in C<localtime>
+and C<gmtime> functions:
+
+=over 4
+
+=item C<$month>
+
+0-indexed: 0 = January, 1 = February, ..., 11 = December.
+
+=item C<$year>
+
+Years since 1900. For example, the year 2015 is returned as C<115>, and 1995
+is returned as C<95>. To recover the full 4-digit year: C<$year + 1900>.
+
+=item C<$zone>
+
+Timezone offset in seconds from UTC, or C<undef> if no timezone was specified
+in the input string.
+
+=item C<$century>
+
+Defined only when a 4-digit year was present in the input. Its value is
+C<int($full_year / 100)> (e.g. C<20> for the year 2015). When C<$century> is
+defined, C<$year + 1900> gives the original 4-digit year.
+
+=back
+
+For example, C<strptime("2015-01-24T09:08:17")> returns:
+
+    ($ss, $mm, $hh, $day, $month, $year, $zone, $century)
+    ( 17,   8,   9,   24,      0,   115,  undef,     20 )
+    #                          ^--- January (0-indexed)
+    #                               ^--- 2015 - 1900
+    #                                          ^--- not in input
+    #                                                 ^--- int(2015/100)
 
 =back
 
