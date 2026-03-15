@@ -70,7 +70,7 @@ use Date::Parse qw(strptime str2time);
     cmp_ok($t[2]+0, '==', 23,  "hh=23");
 }
 
-# --- Colon as date separator (ISO 8601 variant) ---
+# --- Colon as date separator (non-standard, but accepted by the parser) ---
 {
     my @t = strptime("1995:01:24T09:08:17");
     cmp_ok($t[4]+0, '==', 0,  "colon-separated: month=0 (January)");
