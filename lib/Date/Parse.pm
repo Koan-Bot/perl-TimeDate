@@ -143,7 +143,8 @@ sub {
       ($month,$day) = ($month{$3},$1);
     }
     elsif ($dtstr =~ s#($monpat)\s*(\d+)\s*($sufpat)?\s# #o) {
-      ($month,$day) = ($month{$1},$2);
+      $month = $month{$1};
+      if ($2 > 31) { $year = $2 } else { $day = $2 }
     }
     elsif ($dtstr =~ s#($monpat)([\/-])(\d+)[\/-]# #o) {
       ($month,$day) = ($month{$1},$3);
