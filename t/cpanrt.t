@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 24;
+use Test::More tests => 25;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -115,16 +115,18 @@ use Date::Parse qw(strptime str2time);
     }
 }
 
-# RT#53413: Date::Parse mangling 4-digit year dates
+# RT#53413 / RT#105031 (GH#17): Date::Parse mangling 4-digit year dates
 # str2time() must not map 4-digit pre-1970 years to future dates.
 # The root cause: strptime() extracts a 2-digit year (subtracting 1900 from
 # the 4-digit value) and stores the century separately. str2time() must
 # reconstruct the full 4-digit year before calling Time::Local, whose
-# 2-digit-year windowing would otherwise map e.g. year 24 (from 1924) to 2024.
+# 2-digit-year windowing would otherwise map e.g. year 24 (from 1924) to 2024,
+# or year 65 (from 1965) to 2065.
 {
     my @cases = (
         [ "1924-01-15 00:00:00 UTC", 1924, "year 1924 does not map to 2024" ],
         [ "1963-06-16 00:00:00 UTC", 1963, "year 1963 does not map to 2063" ],
+        [ "1965-12-31 00:00:00 UTC", 1965, "year 1965 does not map to 2065" ],
         [ "1966-01-01 00:00:00 UTC", 1966, "year 1966 does not map to future" ],
         [ "1901-12-17 00:00:00 UTC", 1901, "year 1901 parses correctly" ],
         [ "1935-01-24 00:00:00 UTC", 1935, "year 1935 does not map to future" ],
