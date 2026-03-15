@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 30;
+use Test::More tests => 33;
 use Time::Zone;
 
 # tz_offset: standard timezone abbreviations
@@ -15,6 +15,11 @@ is(tz_offset("JST"),  32400,  "tz_offset JST = 32400");
 is(tz_offset("IST"),  19800,  "tz_offset IST = 19800");
 is(tz_offset("ICT"),  25200,  "tz_offset ICT = 25200 (Indochina)");
 is(tz_offset("PHT"),  28800,  "tz_offset PHT = 28800 (Philippine)");
+is(tz_offset("NST"),  -12600, "tz_offset NST = -12600 (Newfoundland Standard)");
+is(tz_offset("NFT"),  -12600, "tz_offset NFT = -12600 (Newfoundland)");
+
+# tz_offset: Newfoundland Daylight (half-hour DST)
+is(tz_offset("NDT"),  -9000,  "tz_offset NDT = -9000 (Newfoundland Daylight)");
 
 # tz_offset: DST timezone abbreviations
 is(tz_offset("EDT"),  -14400, "tz_offset EDT = -14400");
