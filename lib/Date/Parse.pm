@@ -208,7 +208,7 @@ sub {
     }
   }
 
-  if (defined $year && $year > 1900) {
+  if (defined $year && $year >= 100) {
     $century = int($year / 100);
     $year -= 1900;
   }
