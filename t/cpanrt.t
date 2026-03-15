@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 25;
+use Test::More tests => 28;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -147,6 +147,15 @@ use Date::Parse qw(strptime str2time);
     my @t = strptime("1924-01-15 00:00:00 UTC");
     is($t[5], 24,  "RT#53413: strptime year field is 24 for 1924 (offset from 1900)");
     is($t[7], 19,  "RT#53413: strptime century field is 19 for 1924");
+}
+
+# RT#82271: tz_name should return CEST (not MEST) for Central European Summer Time
+# CEST (Central European Summer Time) is the standard/preferred abbreviation;
+# MEST (Middle European Summer Time) is a German-influenced variant.
+{
+    use Time::Zone;
+    is(tz_name(7200, 1),  "cest", "RT#82271: tz_name(+2h, dst=1) returns cest not mest");
+    is(tz_offset("MEST"), 7200,   "RT#82271: tz_offset(MEST) still works for backward compat");
 }
 
 # RT#92611: str2time wrong year when no year specified for a future month

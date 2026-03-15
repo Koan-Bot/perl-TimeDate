@@ -199,11 +199,11 @@ CONFIG: {
         "ydt"  =>   -8*3600,     # Yukon Daylight
         "hdt"  =>   -9*3600,     # Hawaii Daylight
         "bst"  =>   +1*3600,     # British Summer
-        "mest" =>   +2*3600,     # Middle European Summer
+        "cest" =>   +2*3600,     # Central European Summer (preferred)
+        "mest" =>   +2*3600,     # Middle European Summer (alias, kept for compat)
         "metdst" => +2*3600,     # Middle European DST
         "sst"  =>   +2*3600,     # Swedish Summer
         "fst"  =>   +2*3600,     # French Summer
-        "cest" =>   +2*3600,     # Central European Daylight
         "eest" =>   +3*3600,     # Eastern European Summer
         "msd"  =>   +4*3600,     # Moscow Daylight
         "wadt" =>   +8*3600,     # West Australian Daylight
