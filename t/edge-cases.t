@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 44;
+use Test::More tests => 47;
 use Date::Parse qw(str2time strptime);
 use Date::Language;
 
@@ -135,6 +135,21 @@ ok(!defined str2time("not a date at all"), "str2time('not a date at all') return
 {
     my $t = str2time("2024-May-15 14:30:00.123456");
     ok(defined $t, "boost format YYYY-Mon-DD HH:MM:SS.f parses");
+}
+
+# --- Leap day (Feb 29) handling ---
+# When only a year is given, str2time fills in the current month/day.
+# On Feb 29 the year must be a leap year or str2time returns undef.
+# See: https://github.com/atoomic/perl-TimeDate/issues/28
+{
+    # Explicit Feb 29 on a leap year must succeed
+    my $t1 = str2time("29 Feb 2000 10:02:18 GMT");
+    ok(defined $t1,      "Feb 29 of leap year 2000 parses");
+    is($t1, 951818538,   "Feb 29 2000 10:02:18 GMT matches expected epoch");
+
+    # Explicit Feb 29 on a non-leap year must fail
+    my $t2 = str2time("29 Feb 1999 10:02:18 GMT");
+    ok(!defined $t2,     "Feb 29 of non-leap year 1999 returns undef");
 }
 
 # --- Comma as decimal separator in fractional seconds (ISO 8601) ---
