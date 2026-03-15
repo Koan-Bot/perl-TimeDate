@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 24;
+use Test::More tests => 25;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -145,4 +145,26 @@ use Date::Parse qw(strptime str2time);
     my @t = strptime("1924-01-15 00:00:00 UTC");
     is($t[5], 24,  "RT#53413: strptime year field is 24 for 1924 (offset from 1900)");
     is($t[7], 19,  "RT#53413: strptime century field is 19 for 1924");
+}
+
+# RT#92611: str2time wrong year when no year specified for a future month
+# Parsing "1 Feb" in January should give the current year, not last year.
+{
+    my @lt = localtime(time);
+    my $cur_month = $lt[4];            # 0-11
+    my $cur_year  = 1900 + $lt[5];
+    my @months    = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+
+  SKIP: {
+        # December → January crosses a year boundary; the heuristic is ambiguous there.
+        skip "RT#92611: skipping in December (year-boundary edge case)", 1
+            if $cur_month == 11;
+
+        my $future_month = $cur_month + 1;    # guaranteed valid (0-10 → 1-11)
+        my $future_name  = $months[$future_month];
+        my $t = str2time("15 $future_name");
+        my $got_year = 1900 + (localtime($t))[5];
+        is($got_year, $cur_year,
+            "RT#92611: '15 $future_name' with no year resolves to current year $cur_year");
+    }
 }
