@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 47;
+use Test::More;
 use Date::Parse qw(str2time strptime);
 use Date::Language;
 
@@ -172,3 +172,59 @@ ok(!defined str2time("not a date at all"), "str2time('not a date at all') return
     my $rfc = str2time("Wed, 16 Jun 94 07:29:35 CST");
     is($rfc, 771773375, "RFC 2822 comma after day name still works");
 }
+
+# --- Year inference for dates without an explicit year (GH #46) ---
+# When no year is given, str2time should assume the most recent occurrence:
+# a date in the future (month > now, OR same month but day > today) gets
+# previous year; a date in the past (or today) gets current year.
+{
+    my @lt = localtime();
+    my ($cur_day, $cur_month, $cur_year) = @lt[3, 4, 5];
+    $cur_year += 1900;
+
+    my @mon_names = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+
+    # A future month (strictly > current month): should infer previous year.
+    if ($cur_month < 11) {
+        my $future_mon = $mon_names[$cur_month + 1];
+        my $t = str2time("$future_mon 4 01:04:16");
+        ok(defined $t, "future month '$future_mon 4': parses");
+        my @res = localtime($t);
+        is($res[5] + 1900, $cur_year - 1,
+            "future month ($future_mon) → previous year (GH#46)");
+    }
+
+    # A past month (strictly < current month): should infer current year.
+    if ($cur_month > 0) {
+        my $past_mon = $mon_names[$cur_month - 1];
+        my $t = str2time("$past_mon 4 01:04:16");
+        ok(defined $t, "past month '$past_mon 4': parses");
+        my @res = localtime($t);
+        is($res[5] + 1900, $cur_year,
+            "past month ($past_mon) → current year (GH#46)");
+    }
+
+    # Same month, day strictly in the future → previous year.
+    if ($cur_day <= 27) {
+        my $future_day = $cur_day + 1;
+        my $mon = $mon_names[$cur_month];
+        my $t = str2time(sprintf("%s %d 01:04:16", $mon, $future_day));
+        ok(defined $t, "future day same month '$mon $future_day': parses");
+        my @res = localtime($t);
+        is($res[5] + 1900, $cur_year - 1,
+            "same month, future day ($mon $future_day) → previous year (GH#46)");
+    }
+
+    # Same month, day strictly in the past → current year.
+    if ($cur_day >= 2) {
+        my $past_day = $cur_day - 1;
+        my $mon = $mon_names[$cur_month];
+        my $t = str2time(sprintf("%s %d 01:04:16", $mon, $past_day));
+        ok(defined $t, "past day same month '$mon $past_day': parses");
+        my @res = localtime($t);
+        is($res[5] + 1900, $cur_year,
+            "same month, past day ($mon $past_day) → current year (GH#46)");
+    }
+}
+
+done_testing;
