@@ -63,6 +63,14 @@ sub AUTOLOAD
  croak "Undefined method &$AUTOLOAD called";
 }
 
+sub format_Z {
+    my $tz = Date::Format::Generic::format_Z(@_);
+    my $pkg = ref($_[0]) || 'Date::Language';
+    no strict 'refs';
+    my $tz_map = \%{"${pkg}::TZ"};
+    return exists $tz_map->{$tz} ? $tz_map->{$tz} : $tz;
+}
+
 sub str2time
 {
  my $me = shift;

@@ -29,6 +29,16 @@ our @Dsuf = @{Date::Language::English::Dsuf};
 our ( %MoY, %DoW );
 Date::Language::_build_lookups();
 
+# Timezone abbreviation translations (English → German, same as German locale)
+our %TZ = (
+    'CET'  => 'MEZ',    # Mitteleuropäische Zeit
+    'CEST' => 'MESZ',   # Mitteleuropäische Sommerzeit
+    'WET'  => 'WEZ',    # Westeuropäische Zeit
+    'WEST' => 'WESZ',   # Westeuropäische Sommerzeit
+    'EET'  => 'OEZ',    # Osteuropäische Zeit
+    'EEST' => 'OESZ',   # Osteuropäische Sommerzeit
+);
+
 # Formatting routines
 
 sub format_a { $DoWs[$_[0]->[6]] }
