@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 38;
+use Test::More tests => 44;
 use Date::Parse qw(str2time strptime);
 use Date::Language;
 
@@ -135,4 +135,25 @@ ok(!defined str2time("not a date at all"), "str2time('not a date at all') return
 {
     my $t = str2time("2024-May-15 14:30:00.123456");
     ok(defined $t, "boost format YYYY-Mon-DD HH:MM:SS.f parses");
+}
+
+# --- Comma as decimal separator in fractional seconds (ISO 8601) ---
+{
+    my $dot = str2time("2016-01-28 23:27:13.995 UTC");
+    my $comma = str2time("2016-01-28 23:27:13,995 UTC");
+    ok(defined $dot,   "dot decimal fractional seconds parse");
+    ok(defined $comma, "comma decimal fractional seconds parse");
+    cmp_ok(abs($dot - $comma), '<', 0.01,
+        "comma decimal gives same result as dot decimal");
+
+    my $t1 = str2time("2016-01-28 23:27:13,995 UTC");
+    my $t2 = str2time("2016-01-28 23:27:13,996 UTC");
+    cmp_ok($t2, '>', $t1,
+        "comma decimal: ,996 is later than ,995");
+    cmp_ok(abs($t2 - $t1 - 0.001), '<', 0.0001,
+        "comma decimal: difference is ~1ms");
+
+    # RFC 2822 commas still work
+    my $rfc = str2time("Wed, 16 Jun 94 07:29:35 CST");
+    is($rfc, 771773375, "RFC 2822 comma after day name still works");
 }
