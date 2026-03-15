@@ -1,4 +1,4 @@
-use Test::More tests => 202;
+use Test::More tests => 252;
 use Date::Format qw(ctime time2str);
 use Date::Language;
 use utf8;
@@ -230,3 +230,55 @@ Bulgarian
 %Oq	III
 %OY	MMX
 %Oy	X
+936709362 # Tue Sep  7 13:02:42 1999 GMT
+Portuguese
+%y	99
+%Y	1999
+%%	%
+%a	ter
+%A	terça-feira
+%b	set
+%B	setembro
+%c	09/07/99 13:02:42
+%C	ter set  7 13:02:42 GMT 1999
+%d	07
+%e	 7
+%D	09/07/99
+%h	set
+%H	13
+%I	01
+%j	250
+%k	13
+%l	 1
+%L	9
+%m	09
+%M	02
+%o	 7º
+%p	PM
+%q	3
+%r	01:02:42 PM
+%R	13:02
+%s	936709362
+%S	42
+%T	13:02:42
+%U	36
+%w	2
+%W	36
+%x	09/07/99
+%X	13:02:42
+%y	99
+%Y	1999
+%Z	GMT
+%z	+0000
+%Od	VII
+%Oe	VII
+%OH	XIII
+%OI	I
+%Oj	CCL
+%Ok	XIII
+%Ol	I
+%Om	IX
+%OM	II
+%Oq	III
+%OY	MCMXCIX
+%Oy	XCIX
