@@ -57,8 +57,11 @@ is(tz_name(32400, 0),  "jst",  "tz_name(32400, dst=0) is jst (Japan Standard)");
 is(tz_name(-25200, 1), "pdt",  "tz_name(-25200, dst=1) is pdt (Pacific Daylight)");
 is(tz_name(-28800, 0), "pst",  "tz_name(-28800, dst=0) is pst (Pacific Standard)");
 
-# tz_name: unknown offset returns numeric string
-like(tz_name(5400, 0), qr/^\+\d{4}$/, "tz_name for unknown offset returns numeric");
+# tz_name: unknown offset returns correct +HHMM numeric string (RT#59298)
+# 5400s = 90 minutes = UTC+1:30 → "+0130" (not "+9000" which the buggy code produced)
+is(tz_name(5400, 0),  "+0130", "tz_name(5400) returns +0130 (UTC+1:30)");
+# Negative fractional-hour offset: -9000s = UTC-2:30 → "-0230"
+is(tz_name(-9000, 0), "-0230", "tz_name(-9000) returns -0230 (UTC-2:30)");
 
 # tz_local_offset: returns a sane value
 {

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More tests => 31;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -147,6 +147,20 @@ use Date::Parse qw(strptime str2time);
     my @t = strptime("1924-01-15 00:00:00 UTC");
     is($t[5], 24,  "RT#53413: strptime year field is 24 for 1924 (offset from 1900)");
     is($t[7], 19,  "RT#53413: strptime century field is 19 for 1924");
+}
+
+# RT#59298: tz_name() reports incorrect offset for unknown timezone names
+# The offset passed is in seconds, but the old code treated it as minutes,
+# producing e.g. "+33000" for IST (+5:30) instead of "+0530".
+# Also: negative fractional-hour offsets must format correctly.
+{
+    use Time::Zone;
+    # UTC+5:30 = 19800s — not in the Zone table when the bug was filed
+    is(tz_name(19800, 0), "ist",   "RT#59298: tz_name(19800) returns ist (UTC+5:30 is now in table)");
+    # An offset not in the table: UTC+1:30 = 5400s → "+0130" (was "+9000" before fix)
+    is(tz_name(5400, 0),  "+0130", "RT#59298: tz_name(5400) returns +0130, not +9000");
+    # Negative fractional offset: UTC-2:30 = -9000s → "-0230"
+    is(tz_name(-9000, 0), "-0230", "RT#59298: tz_name(-9000) returns -0230 (UTC-2:30)");
 }
 
 # RT#82271: tz_name should return CEST (not MEST) for Central European Summer Time
