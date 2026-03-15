@@ -22,7 +22,7 @@ our @DoWs = map { substr($_,0,3) } @DoW;
 our @MoYs = map { substr($_,0,3) } @MoY;
 our @AMPM = qw(AM PM);
 
-our @Dsuf = ((qw(0)) x 31);
+our @Dsuf = ('º') x 32;
 
 our ( %MoY, %DoW );
 Date::Language::_build_lookups();
@@ -34,6 +34,7 @@ sub format_A { $DoW[$_[0]->[6]] }
 sub format_b { $MoYs[$_[0]->[4]] }
 sub format_B { $MoY[$_[0]->[4]] }
 sub format_h { $MoYs[$_[0]->[4]] }
+sub format_o { sprintf("%2d%s",$_[0]->[3],$Dsuf[$_[0]->[3]]) }
 sub format_p { $_[0]->[2] >= 12 ?  $AMPM[1] : $AMPM[0] }
 
 1;
