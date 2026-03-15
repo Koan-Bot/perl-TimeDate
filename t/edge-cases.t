@@ -199,6 +199,7 @@ ok(!defined str2time("not a date at all"), "str2time('not a date at all') return
     is($rfc, 771773375, "RFC 2822 comma after day name still works");
 }
 
+
 # --- Year inference for dates without an explicit year (GH #46) ---
 # When no year is given, str2time should assume the most recent occurrence:
 # a date in the future (month > now, OR same month but day > today) gets
