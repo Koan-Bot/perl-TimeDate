@@ -197,12 +197,12 @@ sub format_y { sprintf("%02d",$_[0]->[5] % 100) }
 sub format_Y { sprintf("%04d",$_[0]->[5] + 1900) }
 
 sub format_Z {
- my $o = tz_local_offset(timelocal(@{$_[0]}[0..5]));
+ my $o = tz_local_offset($_[0]->[9]);
  defined $tzname ? $tzname : uc tz_name($o, $_[0]->[8]);
 }
 
 sub format_z {
- my $t = timelocal(@{$_[0]}[0..5]);
+ my $t = $_[0]->[9];
  my $o = defined $tzname ? tz_offset($tzname, $t) : tz_offset(undef,$t);
  sprintf("%+03d%02d", int($o / 3600), int(abs($o) % 3600) / 60);
 }
