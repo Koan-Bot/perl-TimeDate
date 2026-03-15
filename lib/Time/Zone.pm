@@ -46,6 +46,7 @@ require 5.006;
 require Exporter;
 use Carp;
 use strict;
+use POSIX qw(tzset tzname);
 
 # VERSION: generated
 # ABSTRACT: miscellaneous timezone manipulations routines
@@ -74,6 +75,13 @@ sub tz2zone (;$$$)
 
     if (defined $tzn_cache{$TZ}->[$isdst]) {
         return $tzn_cache{$TZ}->[$isdst];
+    }
+
+    # Handle IANA timezone names (e.g., "America/Chicago", "Europe/Paris")
+    if ($TZ =~ m{/}) {
+        my ($std, $dst_name) = _iana_tzname($TZ);
+        $tzn_cache{$TZ} = [ $std, $dst_name ];
+        return $isdst ? $dst_name : $std;
     }
 
     if ($TZ =~ /^
@@ -142,6 +150,35 @@ sub calc_off
         $off -= 86400;
     }
 
+    return $off;
+}
+
+# Helper: temporarily set TZ to an IANA name, run a block, restore original TZ.
+sub _with_iana_tz (&$) {
+    my ($code, $tz) = @_;
+    my $had_tz  = exists $ENV{TZ};
+    my $saved   = $ENV{TZ};
+    $ENV{TZ} = $tz;
+    tzset();
+    my @result = $code->();
+    if ($had_tz) { $ENV{TZ} = $saved } else { delete $ENV{TZ} }
+    tzset();
+    return @result;
+}
+
+# Return (std_name, dst_name) for an IANA timezone string.
+sub _iana_tzname {
+    my ($tz) = @_;
+    my ($std, $dst) = _with_iana_tz { tzname() } $tz;
+    $dst = $std unless defined $dst;
+    return ($std, $dst);
+}
+
+# Return the UTC offset in seconds for an IANA timezone string at a given time.
+sub _iana_offset {
+    my ($tz, $time) = @_;
+    $time = time() unless $time;
+    my ($off) = _with_iana_tz { calc_off($time) } $tz;
     return $off;
 }
 
@@ -258,6 +295,11 @@ sub tz_offset (;$$)
     $time = time() unless $time;
     my(@l) = localtime($time);
     my $dst = $l[8];
+
+    # Handle IANA timezone names (e.g., "America/Chicago") before lowercasing
+    if ($zone =~ m{/}) {
+        return _iana_offset($zone, $time);
+    }
 
     $zone = lc $zone;
 
