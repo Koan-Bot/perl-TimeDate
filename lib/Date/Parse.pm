@@ -89,7 +89,12 @@ sub {
 
   return unless $dtstr =~ /\S/;
 
-  if ($dtstr =~ s/\s(\d{4})([-:]?)(\d\d?)\2(\d\d?)(?:[-Tt ](\d\d?)(?:([-:]?)(\d\d?)(?:\6(\d\d?)(?:[.,](\d+))?)?)?)?(?=\D)/ /) {
+  # ISO compact: YYYYMMDD without delimiter (month and day must be exactly 2 digits)
+  if ($dtstr =~ s/\s(\d{4})(\d\d)(\d\d)(?:[-Tt ](\d\d?)(?:([-:]?)(\d\d?)(?:\5(\d\d?)(?:[.,](\d+))?)?)?)?(?=\D)/ /) {
+    ($year,$month,$day,$hh,$mm,$ss,$frac) = ($1,$2-1,$3,$4,$6,$7,$8);
+  }
+  # Date with explicit delimiter: YYYY[-:]MM[-:]DD
+  elsif ($dtstr =~ s/\s(\d{4})([-:])(\d\d?)\2(\d\d?)(?:[-Tt ](\d\d?)(?:([-:]?)(\d\d?)(?:\6(\d\d?)(?:[.,](\d+))?)?)?)?(?=\D)/ /) {
     ($year,$month,$day,$hh,$mm,$ss,$frac) = ($1,$3-1,$4,$5,$7,$8,$9);
   }
 
@@ -150,9 +155,10 @@ sub {
       ($month,$day) = ($month{$1},$3);
     }
 
-    # Date: 961212
+    # Date: 961212 (YYMMDD — only consume if month is in range 1-12)
 
-    elsif ($dtstr =~ s#\s(\d\d)(\d\d)(\d\d)\s# #o) {
+    elsif ($dtstr =~ /\s(\d\d)(\d\d)(\d\d)\s/o && $2 >= 1 && $2 <= 12) {
+      $dtstr =~ s/\s(\d\d)(\d\d)(\d\d)\s/ /;
       ($year,$month,$day) = ($1,$2-1,$3);
     }
 

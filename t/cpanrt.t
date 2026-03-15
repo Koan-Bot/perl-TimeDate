@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 39;
+use Test::More tests => 41;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -115,6 +115,7 @@ use Date::Parse qw(strptime str2time);
     }
 }
 
+<<<<<<< HEAD
 # RT#53413 / RT#105031 (GH#17): Date::Parse mangling 4-digit year dates
 # str2time() must not map 4-digit pre-1970 years to future dates.
 # The root cause: strptime() extracts a 2-digit year (subtracting 1900 from
@@ -213,4 +214,16 @@ use Date::Parse qw(strptime str2time);
     ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime('December 25');
     is($month, 11, "RT#53267: 'December 25' still gives month=11");
     is($day,   25, "RT#53267: 'December 25' still gives day=25");
+}
+
+# RT#125949: strptime returns negative month for certain inputs
+{
+    my @t = strptime("199001");
+    my $month = $t[4];
+    ok(!defined($month) || $month >= 0,
+        "RT#125949: strptime('199001') month is not negative");
+
+    my $t = str2time("199001");
+    ok(!defined($t),
+        "RT#125949: str2time('199001') returns undef for ambiguous 6-digit input");
 }
