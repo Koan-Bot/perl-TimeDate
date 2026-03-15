@@ -205,7 +205,7 @@ CONFIG: {
         "sst"  =>   +2*3600,     # Swedish Summer
         "fst"  =>   +2*3600,     # French Summer
         "eest" =>   +3*3600,     # Eastern European Summer
-        "msd"  =>   +4*3600,     # Moscow Daylight
+        "msd"  =>   +4*3600,     # Moscow Daylight (historical; Russia abolished DST permanently in Oct 2014)
         "wadt" =>   +8*3600,     # West Australian Daylight
         "kdt"  =>  +10*3600,     # Korean Daylight
     #   "cadt" =>  +10*3600+1800,    # Central Australian Daylight
