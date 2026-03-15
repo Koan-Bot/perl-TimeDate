@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 31;
+use Test::More tests => 39;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -192,4 +192,25 @@ use Date::Parse qw(strptime str2time);
         is($got_year, $cur_year,
             "RT#92611: '15 $future_name' with no year resolves to current year $cur_year");
     }
+}
+
+# RT#53267 / GH#2: strptime('MONTH YEAR') puts year into $day
+# 'December 2009' should give month=11, year=109 (2009-1900), day=undef
+# not month=11, day=2009, year=undef
+{
+    my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime('December 2009');
+    is($month, 11,  "RT#53267: 'December 2009' gives month=11 (December)");
+    ok(!defined($day), "RT#53267: 'December 2009' gives day=undef (not 2009)");
+    is($year,  109, "RT#53267: 'December 2009' gives year=109 (2009-1900)");
+
+    # 4-digit year in same position
+    ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime('Jan 1995');
+    is($month, 0,   "RT#53267: 'Jan 1995' gives month=0 (January)");
+    ok(!defined($day), "RT#53267: 'Jan 1995' gives day=undef");
+    is($year,  95,  "RT#53267: 'Jan 1995' gives year=95 (1995-1900)");
+
+    # normal 'MONTH DAY' must still work
+    ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime('December 25');
+    is($month, 11, "RT#53267: 'December 25' still gives month=11");
+    is($day,   25, "RT#53267: 'December 25' still gives day=25");
 }
