@@ -237,13 +237,14 @@ ESQ
 
 sub str2time
 {
+ my $now = @_ > 2 ? splice(@_, 2, 1) : time;
  my @t = strptime(@_);
 
  return undef
     unless @t;
 
  my($ss,$mm,$hh,$day,$month,$year,$zone, $century) = @t;
- my @lt  = localtime(time);
+ my @lt  = localtime($now);
 
  $hh    ||= 0;
  $mm    ||= 0;
@@ -321,11 +322,15 @@ C<Date::Parse> provides two routines for parsing date strings into time values.
 
 =over 4
 
-=item str2time(DATE [, ZONE])
+=item str2time(DATE [, ZONE [, EPOCH]])
 
 C<str2time> parses C<DATE> and returns a unix time value, or undef upon failure.
 C<ZONE>, if given, specifies the timezone to assume when parsing if the
 date string does not specify a timezone.
+C<EPOCH>, if given, is a unix epoch value used as the reference time when
+filling in missing date components (month, day, or year).  Defaults to
+C<time()>.  Useful when the current system clock cannot be trusted or when
+parsing dates relative to a known reference point.
 
 =item strptime(DATE [, ZONE])
 
