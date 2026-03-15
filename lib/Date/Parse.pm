@@ -284,9 +284,9 @@ sub str2time
  # Normalize two-digit years to 4-digit before passing to Time::Local.
  # Time::Local's own windowing varies across versions, so we do it ourselves.
  # Convention: 69-99 -> 1969-1999, 0-68 -> 2000-2068 (POSIX strptime behavior).
- # Only applied when no century was parsed (i.e. genuinely 2-digit input).
- # For first-century dates, use 4-digit years (e.g. "0074" not "74").
- $year += ($year >= 69 ? 1900 : 2000) if !defined $century && $year < 100;
+ # Note: first-century dates (years 1-99 AD) are not representable through
+ # str2time — same limitation as POSIX strptime.
+ $year += ($year >= 69 ? 1900 : 2000) if $year < 100;
 
  return undef
     unless($month <= 11 && $day >= 1 && $day <= 31
