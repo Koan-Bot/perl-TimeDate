@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 41;
+use Test::More tests => 44;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -54,6 +54,13 @@ use Date::Parse qw(strptime str2time);
     my $time = str2time($date);
     my $year_parsed_as = 1900 + (gmtime($time))[5];
     is($year_parsed_as, $target_year, "RT#84075: year $target_year not mapped to future");
+}
+
+# RT#70650: Date::Parse should not parse ludicrous strings like bare numbers
+{
+    ok(!defined str2time('1'),      "RT#70650: str2time('1') returns undef");
+    ok(!defined str2time('+01'),    "RT#70650: str2time('+01') returns undef");
+    ok(!defined str2time('+0500'),  "RT#70650: str2time('+0500') returns undef");
 }
 
 # IST (Indian Standard Time) should resolve to UTC+5:30
