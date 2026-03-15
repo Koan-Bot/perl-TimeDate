@@ -188,7 +188,7 @@ my (%dstZone, %zoneOff, %dstZoneOff, %Zone);
 
 CONFIG: {
     my @dstZone = (
-    #   "ndt"  =>   -2*3600-1800,    # Newfoundland Daylight
+        "ndt"  =>   -2*3600-1800,    # Newfoundland Daylight
         "brst" =>   -2*3600,         # Brazil Summer Time (East Daylight)
         "adt"  =>   -3*3600,     # Atlantic Daylight
         "edt"  =>   -4*3600,     # Eastern Daylight
@@ -227,8 +227,8 @@ CONFIG: {
     # For completeness.  BST is also British Summer, and GST is also Guam Standard.
     #   "bst"       =>  -3*3600,     # Brazil Standard
     #   "gst"       =>  -3*3600,     # Greenland Standard
-    #   "nft"       =>  -3*3600-1800,# Newfoundland
-    #   "nst"       =>  -3*3600-1800,# Newfoundland Standard
+        "nft"       =>  -3*3600-1800,# Newfoundland
+        "nst"       =>  -3*3600-1800,# Newfoundland Standard
         "mnt"   =>  -4*3600,     # Brazil Time (West Standard - Manaus)
         "ewt"       =>  -4*3600,     # U.S. Eastern War Time
         "ast"       =>  -4*3600,     # Atlantic Standard
