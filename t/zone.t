@@ -29,6 +29,12 @@ is(tz_offset("+0530"), 19800,  "tz_offset +0530 = 19800");
 is(tz_offset("+0900"), 32400,  "tz_offset +0900 = 32400");
 is(tz_offset("-0800"), -28800, "tz_offset -0800 = -28800");
 
+# tz_offset: Southeast Asian timezones (RT#123247)
+is(tz_offset("ICT"),  25200, "tz_offset ICT = 25200 (Indochina Time, UTC+7)");
+is(tz_offset("PHT"),  28800, "tz_offset PHT = 28800 (Philippine Time, UTC+8)");
+is(tz_offset("ict"),  25200, "tz_offset ict case insensitive");
+is(tz_offset("pht"),  28800, "tz_offset pht case insensitive");
+
 # tz_offset: unknown zone returns undef
 is(tz_offset("BOGUS"), undef, "tz_offset unknown zone returns undef");
 
