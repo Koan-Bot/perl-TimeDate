@@ -265,8 +265,10 @@ CONFIG: {
     #   "nst"   =>  +6*3600+1800,# North Sumatra
     #   "sst"   =>  +7*3600,     # South Sumatra, USSR Zone 6
     #   "jt"    =>  +7*3600+1800,# Java (3pm in Cronusland!)
+        "ict"   =>  +7*3600,     # Indochina Time
         "wst"   =>  +8*3600,     # West Australian Standard
         "hkt"   =>  +8*3600,     # Hong Kong
+        "pht"   =>  +8*3600,     # Philippine Time
         "cct"   =>  +8*3600,     # China Coast, USSR Zone 7
         "jst"   =>  +9*3600,     # Japan Standard, USSR Zone 8
         "kst"   =>  +9*3600,     # Korean Standard
