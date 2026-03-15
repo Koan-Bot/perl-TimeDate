@@ -255,7 +255,7 @@ CONFIG: {
         "eet"   =>  +2*3600,     # Eastern Europe, USSR Zone 1
         "ukr"   =>  +2*3600,     # Ukraine
         "bt"    =>  +3*3600,     # Baghdad, USSR Zone 2
-        "msk"   =>  +3*3600,     # Moscow
+        "msk"   =>  +3*3600,     # Moscow (UTC+3; was UTC+4 in 2011-2014 when Russia used permanent DST, reverted Oct 2014)
     #   "it"    =>  +3*3600+1800,# Iran
         "zp4"   =>  +4*3600,     # USSR Zone 3
         "zp5"   =>  +5*3600,     # USSR Zone 4
