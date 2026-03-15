@@ -297,6 +297,8 @@ sub str2time
         or $result == -1
            && join("",$ss,$mm,$hh,$day,$month,$year)
                 ne "595923311169";
+   # Detect integer overflow: post-1970 dates must produce a non-negative epoch
+   return undef if $result < 0 && $year >= 1970;
    $result -= $zone;
  }
  else {
@@ -309,6 +311,9 @@ sub str2time
         or $result == -1
            && join("",$ss,$mm,$hh,$day,$month,$year)
                 ne join("",(localtime(-1))[0..5]);
+   # Detect integer overflow: post-1970 dates must produce a non-negative epoch
+   # Use 1971 to avoid false positives from timezone offsets near epoch 0
+   return undef if $result < 0 && $year >= 1971;
  }
 
  return $result + $frac;
