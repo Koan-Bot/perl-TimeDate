@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 44;
+use Test::More tests => 45;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -232,4 +232,12 @@ use Date::Parse qw(strptime str2time);
     my $t = str2time("199001");
     ok(!defined($t),
         "RT#125949: str2time('199001') returns undef for ambiguous 6-digit input");
+}
+
+# RT#53557: Missing =back in Date::Parse POD before =head1 MULTI-LANGUAGE SUPPORT
+{
+    require Pod::Checker;
+    my $checker = Pod::Checker->new;
+    $checker->parse_from_file('lib/Date/Parse.pm');
+    is($checker->num_errors, 0, "RT#53557: Date::Parse.pm has valid POD (no missing =back)");
 }
