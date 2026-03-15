@@ -53,9 +53,9 @@ sub strftime
    $tzname = sprintf("%+05d",$tzname)
     unless($tzname =~ /\D/);
 
-   $epoch = timegm(@{$time}[0..5]);
+   $epoch = timelocal(@{$time}[0..5]);
 
-   @$me = gmtime($epoch + tz_offset($tzname) - tz_offset());
+   @$me = gmtime($epoch + tz_offset($tzname));
   }
  else
   {
