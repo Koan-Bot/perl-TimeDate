@@ -103,10 +103,36 @@ ok(!defined str2time("not a date at all"), "str2time('not a date at all') return
 }
 
 # --- Two-digit year handling ---
+# Two-digit years: 69-99 -> 1969-1999, 0-68 -> 2000-2068 (POSIX convention)
 {
     my $t = str2time("16 Oct 09");
     ok(defined $t, "two-digit year '09' parses");
     cmp_ok($t, '>=', 0, "two-digit year '09' gives non-negative time");
+    my @gm = gmtime($t);
+    is($gm[5] + 1900, 2009, "two-digit year '09' maps to 2009");
+}
+
+# --- Two-digit years for 1970s/1980s dates (GH issue #47) ---
+{
+    my $t74 = str2time("01 Jan 74 00:00:00 GMT");
+    ok(defined $t74, "two-digit year '74' parses");
+    is($t74, 126230400, "two-digit year '74' gives 1974-01-01 not 2074");
+
+    my $t73 = str2time("15 Jun 73 12:00:00 GMT");
+    ok(defined $t73, "two-digit year '73' parses");
+    my @gm73 = gmtime($t73);
+    is($gm73[5] + 1900, 1973, "two-digit year '73' maps to 1973");
+
+    my $t72 = str2time("01 Jan 72 00:00:00 GMT");
+    ok(defined $t72, "two-digit year '72' parses");
+    my @gm72 = gmtime($t72);
+    is($gm72[5] + 1900, 1972, "two-digit year '72' maps to 1972");
+
+    # Boundary: 69 -> 1969, 68 -> 2068
+    my $t69 = str2time("01 Jan 69 00:00:00 GMT");
+    ok(defined $t69, "two-digit year '69' parses");
+    my @gm69 = gmtime($t69);
+    is($gm69[5] + 1900, 1969, "two-digit year '69' maps to 1969 (boundary)");
 }
 
 # --- Time-only formats ---

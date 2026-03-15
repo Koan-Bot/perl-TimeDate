@@ -281,6 +281,11 @@ sub str2time
  # we were given a 4 digit year, so let's keep using those
  $year += 1900 if defined $century;
 
+ # Normalize two-digit years to 4-digit before passing to Time::Local.
+ # Time::Local's own windowing varies across versions, so we do it ourselves.
+ # Convention: 69-99 -> 1969-1999, 0-68 -> 2000-2068 (POSIX strptime behavior).
+ $year += ($year >= 69 ? 1900 : 2000) if $year < 100;
+
  return undef
     unless($month <= 11 && $day >= 1 && $day <= 31
         && $hh <= 23 && $mm <= 59 && $ss <= 59);
