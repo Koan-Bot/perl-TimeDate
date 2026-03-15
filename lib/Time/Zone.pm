@@ -331,7 +331,10 @@ sub tz_name (;$$)
     } elsif (exists $zoneOff{$off}) {
         return $zoneOff{$off};
     }
-    sprintf("%+05d", int($off / 60) * 100 + $off % 60);
+    # $off is in seconds; format as +HHMM / -HHMM.
+    # Using abs() for the minutes component handles negative fractional-hour
+    # offsets correctly (e.g. -9000s = -2h30m → "-0230", not "-02-30").
+    sprintf("%+03d%02d", int($off / 3600), abs(int($off / 60)) % 60);
 }
 
 1;
