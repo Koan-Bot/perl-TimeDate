@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 10;
 use Date::Parse qw(str2time);
 use Time::Zone;
 use POSIX qw();
@@ -57,4 +57,16 @@ use POSIX qw();
         is($utc_offset2, 0,
             "RT#76968: tz_offset(tz2zone('Etc/UTC')) returns 0");
     }
+}
+
+# RT#98949: Moscow Time Change in October 2014
+# MSK (Moscow Standard Time) is UTC+3 permanently since 25 Oct 2014.
+# Russia eliminated DST in 2011 (UTC+4 year-round), then reverted to UTC+3 in Oct 2014.
+{
+    my $offset = tz_offset("msk");
+    is($offset, 10800, "RT#98949: tz_offset('msk') returns 10800 (UTC+3)");
+
+    my $time     = str2time("2014-10-27 00:00:00 MSK");
+    my $time_utc = str2time("2014-10-26 21:00:00 UTC");
+    is($time, $time_utc, "RT#98949: MSK date after 2014 change parses to correct UTC");
 }
