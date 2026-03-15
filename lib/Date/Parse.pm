@@ -272,8 +272,11 @@ sub str2time
  $day  = $lt[3]
     unless(defined $day);
 
- $year = ($month < $lt[4]) ? ($lt[5] - 1) : $lt[5]
-    unless(defined $year);
+ unless (defined $year) {
+   my $is_future = $month > $lt[4]
+                || ($month == $lt[4] && $day > $lt[3]);
+   $year = $is_future ? ($lt[5] - 1) : $lt[5];
+ }
 
  # we were given a 4 digit year, so let's keep using those
  $year += 1900 if defined $century;
