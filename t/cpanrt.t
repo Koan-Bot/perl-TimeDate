@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 24;
 use Date::Format qw(time2str strftime);
 use Date::Parse qw(strptime str2time);
 
@@ -113,4 +113,36 @@ use Date::Parse qw(strptime str2time);
         is($utc_offset2, 0,
             "RT#76968: tz_offset(tz2zone('Etc/UTC')) returns 0");
     }
+}
+
+# RT#53413: Date::Parse mangling 4-digit year dates
+# str2time() must not map 4-digit pre-1970 years to future dates.
+# The root cause: strptime() extracts a 2-digit year (subtracting 1900 from
+# the 4-digit value) and stores the century separately. str2time() must
+# reconstruct the full 4-digit year before calling Time::Local, whose
+# 2-digit-year windowing would otherwise map e.g. year 24 (from 1924) to 2024.
+{
+    my @cases = (
+        [ "1924-01-15 00:00:00 UTC", 1924, "year 1924 does not map to 2024" ],
+        [ "1963-06-16 00:00:00 UTC", 1963, "year 1963 does not map to 2063" ],
+        [ "1966-01-01 00:00:00 UTC", 1966, "year 1966 does not map to future" ],
+        [ "1901-12-17 00:00:00 UTC", 1901, "year 1901 parses correctly" ],
+        [ "1935-01-24 00:00:00 UTC", 1935, "year 1935 does not map to future" ],
+    );
+
+    for my $c (@cases) {
+        my ($date, $expected_year, $desc) = @$c;
+        my $t = str2time($date);
+        if (!defined $t) {
+            fail("RT#53413: str2time('$date') returned undef");
+            next;
+        }
+        my $parsed_year = 1900 + (gmtime($t))[5];
+        is($parsed_year, $expected_year, "RT#53413: $desc");
+    }
+
+    # strptime() must return year as offset from 1900 with century captured separately
+    my @t = strptime("1924-01-15 00:00:00 UTC");
+    is($t[5], 24,  "RT#53413: strptime year field is 24 for 1924 (offset from 1900)");
+    is($t[7], 19,  "RT#53413: strptime century field is 19 for 1924");
 }
