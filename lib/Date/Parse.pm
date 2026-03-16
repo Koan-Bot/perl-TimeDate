@@ -216,6 +216,12 @@ sub {
   $zone += 3600 if defined $zone && $dst;
   $ss += "0.$frac" if $frac;
 
+  # Reject inputs that produced only a timezone with no date/time components.
+  # A bare number like '1' or '+0500' gets consumed by the timezone regex,
+  # leaving no meaningful date or time information — these are not valid dates.
+  return unless defined $hh || defined $mm || defined $ss
+             || defined $day || defined $month || defined $year;
+
   return ($ss,$mm,$hh,$day,$month,$year,$zone,$century);
 }
 ESQ
