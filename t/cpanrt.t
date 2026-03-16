@@ -115,7 +115,6 @@ use Date::Parse qw(strptime str2time);
     }
 }
 
-<<<<<<< HEAD
 # RT#53413 / RT#105031 (GH#17): Date::Parse mangling 4-digit year dates
 # str2time() must not map 4-digit pre-1970 years to future dates.
 # The root cause: strptime() extracts a 2-digit year (subtracting 1900 from
