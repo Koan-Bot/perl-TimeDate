@@ -18,7 +18,7 @@ publicly** via a GitHub issue.
 Instead, report it privately using one of these methods:
 
 - **GitHub private vulnerability reporting**: use the
-  [Security Advisory](https://github.com/atoomic/perl-TimeDate/security/advisories/new)
+  [Security Advisory](https://github.com/cpan-authors/TimeDate/security/advisories/new)
   form on GitHub (preferred).
 - **Email**: contact the maintainer directly. You can find contact details on
   the [CPAN author page for ATOOMIC](https://metacpan.org/author/ATOOMIC).
