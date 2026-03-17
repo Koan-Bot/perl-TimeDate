@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use Date::Parse qw(strptime str2time);
 
 # RT#48164: Date::Parse unable to set seconds correctly
