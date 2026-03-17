@@ -179,8 +179,8 @@ use Date::Parse qw(strptime str2time);
     is(tz_offset("MEST"), 7200,   "RT#82271: tz_offset(MEST) still works for backward compat");
 }
 
-# RT#92611: str2time wrong year when no year specified for a future month
-# Parsing "1 Feb" in January should give the current year, not last year.
+# RT#92611: str2time should pick the most recent occurrence when no year given.
+# A future month means the most recent occurrence was last year.
 {
     my @lt = localtime(time);
     my $cur_month = $lt[4];            # 0-11
@@ -196,8 +196,8 @@ use Date::Parse qw(strptime str2time);
         my $future_name  = $months[$future_month];
         my $t = str2time("15 $future_name");
         my $got_year = 1900 + (localtime($t))[5];
-        is($got_year, $cur_year,
-            "RT#92611: '15 $future_name' with no year resolves to current year $cur_year");
+        is($got_year, $cur_year - 1,
+            "RT#92611: '15 $future_name' with no year resolves to previous year (most recent occurrence)");
     }
 }
 
