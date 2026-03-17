@@ -12,11 +12,11 @@ use Date::Parse qw(str2time);
     my $ref_epoch = 1276603200;  # 2010-06-15 12:00:00 UTC
 
     # Parsing "21 feb" with no year: February (month 1) < June (month 5),
-    # so str2time should use the previous year (2009) relative to ref_epoch.
+    # so February is in the past — most recent occurrence is current year (2010).
     my $t = str2time("21 feb 17:05 UTC", undef, $ref_epoch);
     ok(defined $t, "RT#64789: str2time with epoch arg returns defined");
     my $parsed_year = 1900 + (gmtime($t))[5];
-    is($parsed_year, 2009, "RT#64789: 'feb' with epoch 2010-06 rolls back to 2009");
+    is($parsed_year, 2010, "RT#64789: 'feb' with epoch 2010-06 stays in 2010 (most recent occurrence)");
 
     # Parsing a time-only string: "10:30:00 UTC"
     # With ref_epoch (2010-06-15), the date portion should come from ref_epoch
