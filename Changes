@@ -61,15 +61,15 @@ Revision history for TimeDate distribution.
   * Remove limitation from Date::Parse
   * Create Arabic.pm
 
-2.33 -- Wed May 19 11:34:00 MT 2020
+2.33      2020-05-19 11:34:00-06:00 America/Denver
 
   * Remove PAX Headers in tarball using GNU tar
 
-2.32 -- Wed Mar 04 14:41:00 MT 2020
+2.32      2020-03-04 14:41:00-07:00 America/Denver
 
  * Fix t/date.t to run on leap years [arc]
 
-2.31 -- Thu Jan 16 14:00:00 MT 2020
+2.31      2020-01-16 14:00:00-07:00 America/Denver
 
   * Fix year 2020 bug from t/getdate.t [Prajith]
   * Fix warnings from t/date.t
@@ -79,25 +79,25 @@ Revision history for TimeDate distribution.
   * Adds Occitan language. [Quenty31]
   * Migrate GitHub repo and bugtracker to atoomic/perl-TimeDate
 
-2.30 -- Mon Feb 18 13:31:03 CST 2013
+2.30      2013-02-18 13:31:03-06:00 America/Chicago
   * Syncing distribution version number with Date::Parse, not functional changes
 
-1.20 -- Sat Dec 12 06:38:14 CST 2009
+1.20      2009-12-12 06:38:14-06:00 America/Chicago
 
   * Typo => s/timezome/timezone/ [yanick]
   * RT#52387 Fix %s formating to use timelocal when no timezone is given
   * RT#51664 fix str2time('16 Oct 09') to not give a negative result
 
-1.19 -- Fri Sep 25 13:59:41 CDT 2009
+1.19      2009-09-25 13:59:41-05:00 America/Chicago
 
   * Replace Date::Language::Hungarian with version from CPAN by Lee Goddard
 
-1.18 -- Thu Sep 24 17:43:28 CDT 2009
+1.18      2009-09-24 17:43:28-05:00 America/Chicago
 
   * RT#49963 Skip pre 1970 date tests on Win32
   * Added Date::Language::Hungarian (Konrad Lorinczi)
 
-1.17 -- Sat Sep 19 10:56:12 CDT 2009
+1.17      2009-09-19 10:56:12-05:00 America/Chicago
 
 Bugfixes
   * RT#45067: Date::Format with %z gives wrong results for half-hour timezones (Ernesto Hern?dez-Novich)
