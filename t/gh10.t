@@ -22,7 +22,7 @@ use warnings;
 BEGIN {
     $ENV{TZ} = 'America/Los_Angeles';
     require POSIX;
-    POSIX::tzset();
+    eval { POSIX::tzset() };
 }
 
 use POSIX qw();
